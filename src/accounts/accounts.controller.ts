@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Delete, Param, Post, Put } from '@nestjs/common'
 
 import { AccountsService } from './accounts.service'
 
@@ -6,8 +6,18 @@ import { AccountsService } from './accounts.service'
 export class AccountsController {
   constructor(private accountsService: AccountsService) {}
 
-  @Get()
-  allAccounts() {
-    return '12321312321'
+  @Post()
+  async createAccount(name: string) {
+    this.accountsService.createAccount(name)
+  }
+
+  @Delete(':/id')
+  delete() {
+    return `delete`
+  }
+
+  @Put(':/id')
+  patch(@Param('id') id: string) {
+    return `patch id == ${id}`
   }
 }
