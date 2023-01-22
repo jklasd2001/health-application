@@ -9,8 +9,5 @@ export class History extends BaseEntity {
   date: string
 
   @Column()
-  exercise: string[]
-
-  @Column()
   totalExerciseTime: string
 }
