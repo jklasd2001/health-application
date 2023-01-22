@@ -1,13 +1,13 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class Account extends BaseEntity {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
   @Column()
-  name: string
+  username: string
 
   @Column()
-  createdAt: string
+  password: string
 }
