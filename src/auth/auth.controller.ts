@@ -1,32 +1,28 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common'
+import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 
 import { AuthService } from './auth.service'
 import { AuthCredentialDto } from './dto/auth.credential.dto'
+import { User } from './entities/user.entity'
+import { GetUser } from './get.user.decorator'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('/:id')
-  getUserById(@Param('id', ParseIntPipe) id: number) {
-    console.log(id)
-    return this.authService.getUserById(id)
+  @Post('/sign-in')
+  signIn(@Body(ValidationPipe) authCredentialDto: AuthCredentialDto) {
+    return this.authService.signIn(authCredentialDto)
   }
 
   @Post('/sign-up')
-  @UsePipes(ValidationPipe)
-  signUp(@Body() authCredentialDto: AuthCredentialDto) {
-    console.log(authCredentialDto)
+  signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialDto) {
+    return this.authService.signUp(authCredentialDto)
+  }
 
-    this.authService.signUp(authCredentialDto)
+  @Post('/test')
+  @UseGuards(AuthGuard())
+  test(@GetUser() user: User) {
+    console.log(user)
   }
 }

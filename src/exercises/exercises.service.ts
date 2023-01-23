@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { User } from 'src/auth/entities/user.entity'
+
 import { CreateExerciseDto, UpdateExerciseDto } from './dto'
 import { Exercise } from './entities'
 
@@ -23,8 +25,8 @@ export class ExercisesService {
     return exercise
   }
 
-  async createExercise({ kg, name, reps, restTime, rpe, set }: CreateExerciseDto) {
-    const exercise = await this.exercisesRepository.create({
+  async createExercise({ kg, name, reps, restTime, rpe, set }: CreateExerciseDto, user: User) {
+    const exercise = this.exercisesRepository.create({
       kg,
       name,
       reps,
