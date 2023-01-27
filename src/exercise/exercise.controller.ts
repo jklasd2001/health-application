@@ -8,29 +8,23 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
-
-import { User } from 'src/auth/entities/user.entity'
-import { GetUser } from 'src/auth/get.user.decorator'
 
 import { CreateExerciseDto, UpdateExerciseDto } from './dto'
 import { Exercise } from './entities'
-import { ExercisesService } from './exercises.service'
+import { ExerciseService } from './exercise.service'
 
-@Controller('exercises')
-@UseGuards(AuthGuard())
-export class ExercisesController {
+@Controller('exercise')
+// @UseGuards(AuthGuard())
+export class ExerciseController {
   private logger = new Logger('BoardController')
-  constructor(private readonly exercisesService: ExercisesService) {}
+  constructor(private readonly exercisesService: ExerciseService) {}
 
   @Get()
   getAllExercise() {
-    this.logger.verbose(`User dkdkdkasodkasok`)
-    return []
+    return this.exercisesService.getAllExercise()
   }
 
   @Get('/:id')
@@ -39,9 +33,8 @@ export class ExercisesController {
   }
 
   @Post()
-  @UsePipes()
-  createExercise(@Body() createExerciseDto: CreateExerciseDto, @GetUser() user: User) {
-    return this.exercisesService.createExercise(createExerciseDto, user)
+  createExercise(@Body() createExerciseDto: CreateExerciseDto) {
+    return this.exercisesService.createExercise(createExerciseDto)
   }
 
   @Patch('/:id')

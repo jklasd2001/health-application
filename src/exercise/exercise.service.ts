@@ -2,19 +2,36 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { User } from 'src/auth/entities/user.entity'
+import { ExerciseType } from 'src/exercise-type/entities'
 
 import { CreateExerciseDto, UpdateExerciseDto } from './dto'
 import { Exercise } from './entities'
 
 @Injectable()
-export class ExercisesService {
-  constructor(@InjectRepository(Exercise) private exercisesRepository: Repository<Exercise>) {}
+export class ExerciseService {
+  constructor(
+    @InjectRepository(Exercise) private readonly exercisesRepository: Repository<Exercise>,
+    @InjectRepository(ExerciseType)
+    private readonly exerciseTypeRepository: Repository<ExerciseType>,
+  ) {}
+
+  async getAllExercise() {
+    const allExercise = await this.exercisesRepository.find({
+      relations: {
+        exerciseType: true,
+      },
+    })
+
+    return allExercise
+  }
 
   async getExerciseById(id: number): Promise<Exercise> {
     const exercise = await this.exercisesRepository.findOne({
       where: {
         id,
+      },
+      relations: {
+        exerciseType: true,
       },
     })
 
@@ -25,14 +42,20 @@ export class ExercisesService {
     return exercise
   }
 
-  async createExercise({ kg, name, reps, restTime, rpe, set }: CreateExerciseDto, user: User) {
+  async createExercise({ kg, reps, restTime, rpe, set, exerciseTypeId }: CreateExerciseDto) {
+    const exerciseType = await this.exerciseTypeRepository.findOne({
+      where: {
+        id: exerciseTypeId,
+      },
+    })
+
     const exercise = this.exercisesRepository.create({
       kg,
-      name,
       reps,
       restTime,
       rpe,
       set,
+      exerciseType,
     })
 
     if (!exercise) {

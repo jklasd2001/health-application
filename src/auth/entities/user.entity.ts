@@ -1,6 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm'
-
-import { Routine } from 'src/routines/entities/routines.entity'
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
 
 @Entity()
 @Unique(['username'])
@@ -13,7 +11,4 @@ export class User extends BaseEntity {
 
   @Column()
   password: string
-
-  @OneToMany((type) => Routine, (routine) => routine.user, { eager: true })
-  exercises: Routine[]
 }

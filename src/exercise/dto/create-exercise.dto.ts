@@ -1,9 +1,8 @@
-export class UpdateExerciseDto {
-  id: number
-  name: string
+export class CreateExerciseDto {
   kg: number
   set: number
   rpe: number
   reps: number
   restTime: number
+  exerciseTypeId: number
 }
