@@ -6,8 +6,8 @@ import Joi from 'joi'
 import { AuthModule } from './auth/auth.module'
 import { TypeOrmConfigService } from './config/typeorm.config.service'
 import { ExerciseModule } from './exercise/exercise.module'
+import { ExerciseRegistrationModule } from './exercise-registration/exercise-registration.module'
 import { ExerciseTypeModule } from './exercise-type/exercise-type.module'
-import { HistoriesModule } from './histories/histories.module'
 import { RoutineModule } from './routine/routine.module'
 
 @Module({
@@ -32,8 +32,8 @@ import { RoutineModule } from './routine/routine.module'
     }),
     ExerciseModule,
     ExerciseTypeModule,
+    ExerciseRegistrationModule,
     RoutineModule,
-    HistoriesModule,
     AuthModule,
   ],
 })

@@ -1,24 +1,21 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
+import { BadRequestException, NotFoundException } from '@nestjs/common'
 import { Repository } from 'typeorm'
+
+import { CustomRepository } from 'src/typeorm'
 
 import { CreateExerciseTypeDto, UpdateExerciseTypeDto } from './dto'
 import { ExerciseType } from './entities'
 
-@Injectable()
-export class ExerciseTypeService {
-  constructor(@InjectRepository(ExerciseType) private exerciseTypeRepo: Repository<ExerciseType>) {}
-
-  private logger = new Logger()
-
+@CustomRepository(ExerciseType)
+export class ExerciseTypeRepository extends Repository<ExerciseType> {
   async getAllExerciseType(): Promise<ExerciseType[]> {
-    const result = await this.exerciseTypeRepo.find()
+    const result = await this.find()
 
     return result
   }
 
   async getExerciseTypeById(id: number): Promise<ExerciseType> {
-    const exercise = await this.exerciseTypeRepo.findOne({
+    const exercise = await this.findOne({
       where: {
         id,
       },
@@ -32,7 +29,7 @@ export class ExerciseTypeService {
   }
 
   async createExercise({ name }: CreateExerciseTypeDto) {
-    const exerciseType = this.exerciseTypeRepo.create({
+    const exerciseType = this.create({
       name,
     })
 
@@ -40,7 +37,7 @@ export class ExerciseTypeService {
       throw new BadRequestException('crete 실패')
     }
 
-    this.exerciseTypeRepo.save(exerciseType)
+    this.save(exerciseType)
 
     return exerciseType
   }
@@ -52,13 +49,13 @@ export class ExerciseTypeService {
       ...rest,
     }
 
-    this.exerciseTypeRepo.save(newExerciseType)
+    this.save(newExerciseType)
 
     return newExerciseType
   }
 
   async deleteExerciseType(id: number) {
-    const result = await this.exerciseTypeRepo.delete(id)
+    const result = await this.delete(id)
 
     if (result.affected === 0) {
       throw new NotFoundException('찾을 수 없어용')
