@@ -1,5 +1,7 @@
 
-```
+# 123123
+
+```text
 tsconfig.json
 
 /**
@@ -7,7 +9,6 @@ tsconfig.json
 * 해당 옵션을 통해 위에서 예시로 들었던 코드는 아래와 같이 트랜스파일링 되며, 그 결과 정상적으로 import 하는 것이 가능해집니다.
 **/
 "esModuleInterop": true,
-
-
 ```
-// https://pewww.tistory.com/26, joi 사용할 때 에러나서 추가했습니다.
+
+https://pewww.tistory.com/26, joi 사용할 때 에러나서 추가했습니다

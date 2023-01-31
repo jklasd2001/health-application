@@ -1,3 +1,41 @@
+# node_modules
 node_modules
 
+/packages/health-backend/dist
+
+# misc
 .DS_Store
+*.pem
+
+# next.js
+.next
+out
+build
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# debug
+.pnpm-debug.log*
+
+# testing
+**/coverage
+.nyc_output
+
+# local env files
+.env*.local
+
+.env
+.env.dev
+.env.prod
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

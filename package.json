@@ -13,7 +13,8 @@
     "ci:publish": "pnpm build && changeset publish",
     "npkill": "npx npkill",
     "clean-install": "rm -rf **/node_modules && rm -rf pnpm-lock.yaml && pnpm i",
-    "delete-dist": "rimraf **/dist"
+    "delete-dist": "rimraf **/dist",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@types/node": "18.11.18",

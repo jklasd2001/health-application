@@ -1,5 +1,12 @@
 {
     "recommendations": [
-        "rangav.vscode-thunder-client"
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "pkief.material-icon-theme",
+        "codeandstuff.package-json-upgrade",
+        "wayou.vscode-todo-highlight",
+        "formulahendry.auto-rename-tag",
+        "meganrogge.template-string-converter",
     ]
 }
