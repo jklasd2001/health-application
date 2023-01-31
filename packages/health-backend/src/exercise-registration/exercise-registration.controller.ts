@@ -12,7 +12,7 @@ export class ExerciseRegistrationController {
   }
 
   @Post()
-  createExerciseRegistration(a: CreateExerciseRegistrationDto) {
-    this.exerciseRegistrationService.createExerciseRegistration(a)
+  createExerciseRegistration(createExerciseRegistrationDto: CreateExerciseRegistrationDto) {
+    this.exerciseRegistrationService.createExerciseRegistration(createExerciseRegistrationDto)
   }
 }

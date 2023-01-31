@@ -85,7 +85,5 @@ export class ExerciseService {
     if (result.affected === 0) {
       throw new NotFoundException('찾을 수 없어용')
     }
-
-    console.log('result', result)
   }
 }

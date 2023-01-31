@@ -19,7 +19,7 @@ import { ExerciseService } from './exercise.service'
 @Controller('exercise')
 // @UseGuards(AuthGuard())
 export class ExerciseController {
-  private logger = new Logger('BoardController')
+  private logger = new Logger('ExerciseController')
   constructor(private readonly exercisesService: ExerciseService) {}
 
   @Get()

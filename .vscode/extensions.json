@@ -8,5 +8,6 @@
         "wayou.vscode-todo-highlight",
         "formulahendry.auto-rename-tag",
         "meganrogge.template-string-converter",
+        "bradlc.vscode-tailwindcss"
     ]
 }

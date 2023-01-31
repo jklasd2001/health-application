@@ -7,14 +7,11 @@
     ]
   },
   "scripts": {
-    "changeset": "changeset",
-    "ci:version": "changeset version",
+    "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r build",
-    "ci:publish": "pnpm build && changeset publish",
     "npkill": "npx npkill",
     "clean-install": "rm -rf **/node_modules && rm -rf pnpm-lock.yaml && pnpm i",
-    "delete-dist": "rimraf **/dist",
-    "preinstall": "npx only-allow pnpm"
+    "delete-dist": "rimraf **/dist"
   },
   "devDependencies": {
     "@types/node": "18.11.18",
