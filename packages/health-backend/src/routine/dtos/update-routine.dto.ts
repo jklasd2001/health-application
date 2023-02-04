@@ -1,8 +1,5 @@
-export class CreateExerciseDto {
-  kg: number
-  set: number
-  rpe: number
-  reps: number
-  restTime: number
-  exerciseTypeId: number
+import { CreateRoutineDto } from './create-routine.dto'
+
+export class UpdateRoutineDto extends CreateRoutineDto {
+  id: number
 }

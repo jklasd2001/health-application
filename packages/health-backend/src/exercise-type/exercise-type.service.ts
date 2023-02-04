@@ -1,26 +1,32 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 import { CreateExerciseTypeDto, UpdateExerciseTypeDto } from './dto'
 import { ExerciseType } from './entities'
-import { ExerciseTypeRepository } from './exercise-type.repository'
 
 @Injectable()
 export class ExerciseTypeService {
-  constructor(
-    @InjectRepository(ExerciseTypeRepository) private exerciseTypeRepo: ExerciseTypeRepository,
-  ) {}
+  constructor(@InjectRepository(ExerciseType) private exerciseTypeRepo: Repository<ExerciseType>) {}
 
   private logger = new Logger()
 
   async getAllExerciseType(): Promise<ExerciseType[]> {
-    const result = await this.exerciseTypeRepo.getAllExerciseType()
+    const result = await this.exerciseTypeRepo.find({
+      order: {
+        id: 'ASC',
+      },
+    })
 
     return result
   }
 
   async getExerciseTypeById(id: number): Promise<ExerciseType> {
-    const exercise = await this.exerciseTypeRepo.getExerciseTypeById(id)
+    const exercise = await this.exerciseTypeRepo.findOne({
+      where: {
+        id,
+      },
+    })
 
     if (!exercise) {
       throw new NotFoundException('없다 이 운동')
@@ -30,20 +36,36 @@ export class ExerciseTypeService {
   }
 
   async createExercise({ name }: CreateExerciseTypeDto) {
-    const exerciseType = this.exerciseTypeRepo.createExercise({ name })
+    const exerciseType = this.exerciseTypeRepo.create({
+      name,
+    })
+
+    if (!exerciseType) {
+      throw new BadRequestException('crete 실패')
+    }
+
+    this.exerciseTypeRepo.save(exerciseType)
 
     return exerciseType
   }
 
   async updateExercise({ id, ...rest }: UpdateExerciseTypeDto) {
-    const exerciseType = await this.exerciseTypeRepo.updateExercise({ id, ...rest })
+    const exerciseType = await this.getExerciseTypeById(id)
+    const newExerciseType = {
+      ...exerciseType,
+      ...rest,
+    }
 
-    return exerciseType
+    this.exerciseTypeRepo.save(newExerciseType)
+
+    return newExerciseType
   }
 
   async deleteExerciseType(id: number) {
-    const result = await this.exerciseTypeRepo.deleteExerciseType(id)
+    const result = await this.exerciseTypeRepo.delete(id)
 
-    return result
+    if (result.affected === 0) {
+      throw new NotFoundException('찾을 수 없어용')
+    }
   }
 }

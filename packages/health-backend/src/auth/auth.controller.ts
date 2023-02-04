@@ -1,28 +1,21 @@
-import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
+import { Controller, Get, Request, UseGuards } from '@nestjs/common'
 
 import { AuthService } from './auth.service'
-import { AuthCredentialDto } from './dto/auth.credential.dto'
-import { User } from './entities/user.entity'
-import { GetUser } from '../decorator/get-user.decorator'
+import { GoogleOAuthGuard } from './google-oauth.guard'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/sign-in')
-  signIn(@Body(ValidationPipe) authCredentialDto: AuthCredentialDto) {
-    return this.authService.signIn(authCredentialDto)
+  @Get()
+  @UseGuards(GoogleOAuthGuard)
+  async googleAuth(@Request() req) {
+    this.authService.googleLogin(req)
   }
 
-  @Post('/sign-up')
-  signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialDto) {
-    return this.authService.signUp(authCredentialDto)
-  }
-
-  @Post('/test')
-  @UseGuards(AuthGuard())
-  test(@GetUser() user: User) {
-    console.log(user)
+  @Get('google-redirect')
+  @UseGuards(GoogleOAuthGuard)
+  googleAuthRedirect(@Request() req) {
+    return this.authService.googleLogin(req)
   }
 }

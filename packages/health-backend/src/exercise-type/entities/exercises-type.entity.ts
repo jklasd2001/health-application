@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+
+import { User } from 'src/auth/entities/user.entity'
 
 @Entity()
 export class ExerciseType extends BaseEntity {
@@ -7,4 +9,8 @@ export class ExerciseType extends BaseEntity {
 
   @Column()
   name: string
+
+  @ManyToOne(() => User)
+  @JoinColumn()
+  user?: User
 }

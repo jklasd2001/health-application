@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { Exercise } from 'src/exercise/entities'
 import { Routine } from 'src/routine/entities/routines.entity'
@@ -9,9 +9,6 @@ export class ExerciseRegistration extends BaseEntity {
   id: number
 
   @Column()
-  createdAt: string
-
-  @Column()
   kg: number
 
   @Column()
@@ -20,9 +17,9 @@ export class ExerciseRegistration extends BaseEntity {
   @Column()
   reps: number
 
-  @OneToOne(() => Routine)
+  @ManyToOne(() => Routine)
   routine: Routine
 
-  @OneToOne(() => Exercise)
+  @ManyToOne(() => Exercise)
   exercise: Exercise
 }

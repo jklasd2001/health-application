@@ -1,75 +1,30 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import * as bcryptjs from 'bcryptjs'
 import { Repository } from 'typeorm'
 
-import { AuthCredentialDto } from './dto/auth.credential.dto'
 import { User } from './entities/user.entity'
+
+export type UserDetails = {
+  email: string
+  displayName: string
+}
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(User) private readonly authRepository: Repository<User>,
-    private jwtService: JwtService,
-  ) {}
+  constructor(@InjectRepository(User) private readonly authRepository: Repository<User>) {}
 
-  async signIn({ username, password }: AuthCredentialDto) {
-    const user = await this.authRepository.findOne({
-      where: {
-        username,
-      },
-    })
+  async validateUser(details: UserDetails) {
+    const user = await this.authRepository.findOneBy({ email: details.email })
 
-    // TODO: compare 할 땐 salt를 모르는데 어떻게 비교를해서 맞는지 아닌지 확인하는거지
-    const isPasswordMatched = await bcryptjs.compare(password, user.password)
-
-    if (user && isPasswordMatched) {
-      // 유저 토큰 생성 (Secret + Payload)
-
-      const payload = {
-        username,
-      }
-
-      const accessToken = this.jwtService.sign(payload)
-
-      return {
-        accessToken,
-      }
+    if (user) {
+      return user
     }
-
-    throw new UnauthorizedException('비밀버호 정보가 맞지 않습니다.')
+    const newUser = this.authRepository.create(details)
+    return this.authRepository.save(newUser)
   }
 
-  async signUp({ username, password }: AuthCredentialDto) {
-    const salt = await bcryptjs.genSalt()
-    const hasgedPassword = await bcryptjs.hash(password, salt)
-
-    const user = this.authRepository.create({
-      username,
-      password: hasgedPassword,
-    })
-
-    if (!user) {
-      throw new BadRequestException('12312321')
-    }
-
-    try {
-      await this.authRepository.save(user)
-    } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException('Existing username')
-      } else {
-        throw new InternalServerErrorException()
-      }
-    }
-
+  async findUserById(id: number) {
+    const user = await this.authRepository.findOneBy({ id })
     return user
   }
 }

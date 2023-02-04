@@ -1,4 +1,4 @@
-import { Controller, Logger, Post } from '@nestjs/common'
+import { Body, Controller, Get, Logger, Post, UsePipes } from '@nestjs/common'
 
 import { CreateExerciseRegistrationDto } from './dto'
 import { ExerciseRegistrationService } from './exercise-registration.service'
@@ -11,8 +11,18 @@ export class ExerciseRegistrationController {
     this.logger.log(ExerciseRegistrationController)
   }
 
+  @Get()
+  getAllExerciseRegistration() {
+    const items = this.exerciseRegistrationService.getAllExerciseRegistration()
+
+    return items
+  }
+
   @Post()
-  createExerciseRegistration(createExerciseRegistrationDto: CreateExerciseRegistrationDto) {
-    this.exerciseRegistrationService.createExerciseRegistration(createExerciseRegistrationDto)
+  @UsePipes()
+  createExerciseRegistration(@Body() createExerciseRegistrationDto: CreateExerciseRegistrationDto) {
+    return this.exerciseRegistrationService.createExerciseRegistration(
+      createExerciseRegistrationDto,
+    )
   }
 }

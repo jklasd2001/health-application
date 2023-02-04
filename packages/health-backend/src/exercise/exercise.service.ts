@@ -33,6 +33,9 @@ export class ExerciseService {
       relations: {
         exerciseType: true,
       },
+      order: {
+        id: 'ASC',
+      },
     })
 
     if (!exercise) {
@@ -42,19 +45,19 @@ export class ExerciseService {
     return exercise
   }
 
-  async createExercise({ kg, reps, restTime, rpe, set, exerciseTypeId }: CreateExerciseDto) {
+  async createExercise({ exerciseTypeId, ...rest }: CreateExerciseDto) {
     const exerciseType = await this.exerciseTypeRepository.findOne({
       where: {
         id: exerciseTypeId,
       },
     })
 
+    if (!exerciseType) {
+      throw new BadRequestException('Exercise Type이 없어용')
+    }
+
     const exercise = this.exercisesRepository.create({
-      kg,
-      reps,
-      restTime,
-      rpe,
-      set,
+      ...rest,
       exerciseType,
     })
 
