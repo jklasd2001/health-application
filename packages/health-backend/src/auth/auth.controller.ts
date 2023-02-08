@@ -1,4 +1,5 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common'
+import { Controller, Get, Req, UseGuards } from '@nestjs/common'
+import { Request as ApiRequest } from 'express'
 
 import { AuthService } from './auth.service'
 import { GoogleOAuthGuard } from './google-oauth.guard'
@@ -7,15 +8,20 @@ import { GoogleOAuthGuard } from './google-oauth.guard'
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
   @UseGuards(GoogleOAuthGuard)
-  async googleAuth(@Request() req) {
-    this.authService.googleLogin(req)
+  @Get()
+  async googleAuth() {
+    console.log('auth')
   }
 
-  @Get('google-redirect')
   @UseGuards(GoogleOAuthGuard)
-  googleAuthRedirect(@Request() req) {
+  @Get('google/callback')
+  async googleAuthRedirect(@Req() req: ApiRequest) {
     return this.authService.googleLogin(req)
+  }
+
+  @Get('babo')
+  async test() {
+    return '123123'
   }
 }

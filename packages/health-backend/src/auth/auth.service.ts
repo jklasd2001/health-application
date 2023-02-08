@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Request } from 'express'
 import { Repository } from 'typeorm'
 
 import { User } from './entities/user.entity'
@@ -13,18 +14,15 @@ export type UserDetails = {
 export class AuthService {
   constructor(@InjectRepository(User) private readonly authRepository: Repository<User>) {}
 
-  async validateUser(details: UserDetails) {
-    const user = await this.authRepository.findOneBy({ email: details.email })
-
-    if (user) {
-      return user
+  googleLogin(req: Request) {
+    console.log(req.user)
+    if (!req.user) {
+      return 'No user from google'
     }
-    const newUser = this.authRepository.create(details)
-    return this.authRepository.save(newUser)
-  }
 
-  async findUserById(id: number) {
-    const user = await this.authRepository.findOneBy({ id })
-    return user
+    return {
+      message: 'User information from google',
+      user: req.user,
+    }
   }
 }

@@ -11,11 +11,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common'
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 
 import { CreateExerciseDto, UpdateExerciseDto } from './dto'
 import { Exercise } from './entities'
 import { ExerciseService } from './exercise.service'
 
+@ApiBearerAuth()
+@ApiTags('exercise')
 @Controller('exercise')
 // @UseGuards(AuthGuard())
 export class ExerciseController {
@@ -23,6 +26,9 @@ export class ExerciseController {
   constructor(private readonly exercisesService: ExerciseService) {}
 
   @Get()
+  @ApiOperation({
+    summary: '모든 운동 리스트를 가져옵니다.',
+  })
   getAllExercise() {
     return this.exercisesService.getAllExercise()
   }

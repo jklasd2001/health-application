@@ -7,9 +7,7 @@ import { ExerciseRegistrationService } from './exercise-registration.service'
 // @UseGuards(AuthGuard())
 export class ExerciseRegistrationController {
   private logger = new Logger('ExerciseTypeController')
-  constructor(private readonly exerciseRegistrationService: ExerciseRegistrationService) {
-    this.logger.log(ExerciseRegistrationController)
-  }
+  constructor(private readonly exerciseRegistrationService: ExerciseRegistrationService) {}
 
   @Get()
   getAllExerciseRegistration() {

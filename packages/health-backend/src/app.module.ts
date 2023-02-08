@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import Joi from 'joi'
 
 import { AuthModule } from './auth/auth.module'
-import { TypeOrmConfigService } from './config/typeorm.config.service'
+import { TypeOrmConfigService } from './config/type-orm-config-service'
 import { ExerciseModule } from './exercise/exercise.module'
 import { ExerciseRegistrationModule } from './exercise-registration/exercise-registration.module'
 import { ExerciseTypeModule } from './exercise-type/exercise-type.module'
@@ -20,21 +20,20 @@ import { RoutineModule } from './routine/routine.module'
         DATABASE_PORT: Joi.string().required(),
         DATABASE_HOST: Joi.string().required(),
         DATABASE_DATABASE: Joi.string().required(),
-        JWT_ACCESS_TOKEN_SECRET_KEY: Joi.string().required(),
-        JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().required(),
-        JWT_REFRESH_TOKEN_SECRET_KEY: Joi.string().required(),
-        JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        GOOGLE_CLIENT_ID: Joi.string().required(),
+        GOOGLE_CLIENT_SECRET: Joi.string().required(),
+        GOOGLE_REDIRECT: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
     }),
+    AuthModule,
     ExerciseModule,
     ExerciseTypeModule,
     ExerciseRegistrationModule,
     RoutineModule,
-    AuthModule,
   ],
 })
 export class AppModule {}

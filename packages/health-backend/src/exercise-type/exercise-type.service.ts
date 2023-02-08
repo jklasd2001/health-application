@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -8,8 +8,6 @@ import { ExerciseType } from './entities'
 @Injectable()
 export class ExerciseTypeService {
   constructor(@InjectRepository(ExerciseType) private exerciseTypeRepo: Repository<ExerciseType>) {}
-
-  private logger = new Logger()
 
   async getAllExerciseType(): Promise<ExerciseType[]> {
     const result = await this.exerciseTypeRepo.find({

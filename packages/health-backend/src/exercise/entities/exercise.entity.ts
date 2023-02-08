@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import {
   BaseEntity,
   Column,
@@ -17,6 +18,10 @@ export class Exercise extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
+  @ApiProperty({
+    example: 40,
+    description: '목표 Kg',
+  })
   @Column()
   kg: number
 
