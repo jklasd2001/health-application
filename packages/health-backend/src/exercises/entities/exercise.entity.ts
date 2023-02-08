@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
+import { User } from 'src/auth/entities'
 import { ExerciseType } from 'src/exercise-types/entities'
 import { Routine } from 'src/routines/entities/routine.entity'
 
@@ -55,6 +56,10 @@ export class Exercise extends BaseEntity {
   @JoinColumn()
   exerciseType: ExerciseType
 
-  @ManyToOne(() => Routine, (routine) => routine.exercises, { eager: true })
+  @ManyToOne(() => Routine, (routine) => routine.exercises)
   routine: Routine
+
+  @ManyToOne(() => User)
+  @JoinColumn()
+  user: User
 }

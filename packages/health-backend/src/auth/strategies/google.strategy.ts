@@ -16,7 +16,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: configService.get('GOOGLE_CLIENT_ID'),
       clientSecret: configService.get('GOOGLE_CLIENT_SECRET'),
-      callbackURL: 'http://localhost:3000/auth/google/callback',
+      callbackURL: configService.get('GOOGLE_REDIRECT'),
       scope: ['email', 'profile'],
     })
   }
@@ -28,13 +28,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     done: VerifyCallback,
   ) {
     try {
+      const { emails, displayName } = profile
       const user = {
-        accessToken,
-        refreshToken,
-        id: profile.id,
-        displayName: profile.displayName,
-      }
-      console.log(user)
+        email: emails[0].value,
+        name: displayName,
+      } as User
       done(null, user)
     } catch (err) {
       done(err, false)

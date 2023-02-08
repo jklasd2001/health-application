@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
+import { User } from 'src/auth/entities'
 import { Exercise } from 'src/exercises/entities'
 import { Routine } from 'src/routines/entities/routine.entity'
 
@@ -22,4 +23,8 @@ export class ExerciseRegistration extends BaseEntity {
 
   @ManyToOne(() => Exercise)
   exercise: Exercise
+
+  @ManyToOne(() => User)
+  @JoinColumn()
+  user: User
 }
