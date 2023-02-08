@@ -4,8 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from 'src/auth/auth.module'
 
 import { ExerciseType } from './entities'
-import { ExerciseTypeController } from './exercise-type.controller'
-import { ExerciseTypeService } from './exercise-type.service'
+import { ExerciseTypeController } from './exercise-types.controller'
+import { ExerciseTypeService } from './exercise-types.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([ExerciseType]), AuthModule],

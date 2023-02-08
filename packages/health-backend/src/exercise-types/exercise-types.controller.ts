@@ -13,7 +13,7 @@ import {
 
 import { CreateExerciseTypeDto, UpdateExerciseTypeDto } from './dto'
 import { ExerciseType } from './entities'
-import { ExerciseTypeService } from './exercise-type.service'
+import { ExerciseTypeService } from './exercise-types.service'
 
 @Controller('exercise-type')
 // @UseGuards(AuthGuard())

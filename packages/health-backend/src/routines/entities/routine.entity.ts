@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import { Exercise } from 'src/exercise/entities'
+import { Exercise } from 'src/exercises/entities'
 
 @Entity()
 export class Routine extends BaseEntity {

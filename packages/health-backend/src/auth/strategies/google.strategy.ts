@@ -5,12 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20'
 import { Repository } from 'typeorm'
 
-import { User } from './entities/user.entity'
+import { User } from '../entities/user.entity'
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
-    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly configService: ConfigService,
   ) {
     super({
@@ -31,6 +31,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       const user = {
         accessToken,
         refreshToken,
+        id: profile.id,
         displayName: profile.displayName,
       }
       console.log(user)

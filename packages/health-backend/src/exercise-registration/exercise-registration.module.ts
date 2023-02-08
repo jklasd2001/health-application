@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AuthModule } from 'src/auth/auth.module'
-import { Exercise } from 'src/exercise/entities'
-import { Routine } from 'src/routine/entities/routines.entity'
+import { Exercise } from 'src/exercises/entities'
+import { Routine } from 'src/routines/entities/routine.entity'
 
 import { ExerciseRegistration } from './entities'
 import { ExerciseRegistrationController } from './exercise-registration.controller'

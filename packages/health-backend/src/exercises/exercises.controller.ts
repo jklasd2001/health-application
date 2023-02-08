@@ -15,15 +15,15 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 
 import { CreateExerciseDto, UpdateExerciseDto } from './dto'
 import { Exercise } from './entities'
-import { ExerciseService } from './exercise.service'
+import { ExercisesService } from './exercises.service'
 
 @ApiBearerAuth()
 @ApiTags('exercise')
 @Controller('exercise')
 // @UseGuards(AuthGuard())
-export class ExerciseController {
+export class ExercisesController {
   private logger = new Logger('ExerciseController')
-  constructor(private readonly exercisesService: ExerciseService) {}
+  constructor(private readonly exercisesService: ExercisesService) {}
 
   @Get()
   @ApiOperation({

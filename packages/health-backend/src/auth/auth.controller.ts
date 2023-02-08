@@ -2,7 +2,7 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common'
 import { Request as ApiRequest } from 'express'
 
 import { AuthService } from './auth.service'
-import { GoogleOAuthGuard } from './google-oauth.guard'
+import { GoogleOAuthGuard } from './guards/google-oauth.guard'
 
 @Controller('auth')
 export class AuthController {

@@ -14,6 +14,12 @@ export type UserDetails = {
 export class AuthService {
   constructor(@InjectRepository(User) private readonly authRepository: Repository<User>) {}
 
+  findUserById(id: number) {
+    this.authRepository.findOne({
+      where: {},
+    })
+  }
+
   googleLogin(req: Request) {
     console.log(req.user)
     if (!req.user) {

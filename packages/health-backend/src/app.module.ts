@@ -5,10 +5,10 @@ import Joi from 'joi'
 
 import { AuthModule } from './auth/auth.module'
 import { TypeOrmConfigService } from './config/type-orm-config-service'
-import { ExerciseModule } from './exercise/exercise.module'
 import { ExerciseRegistrationModule } from './exercise-registration/exercise-registration.module'
-import { ExerciseTypeModule } from './exercise-type/exercise-type.module'
-import { RoutineModule } from './routine/routine.module'
+import { ExerciseTypeModule } from './exercise-types/exercise-types.module'
+import { ExercisesModule } from './exercises/exercises.module'
+import { RoutinesModule } from './routines/routines.module'
 
 @Module({
   imports: [
@@ -30,10 +30,10 @@ import { RoutineModule } from './routine/routine.module'
       useClass: TypeOrmConfigService,
     }),
     AuthModule,
-    ExerciseModule,
+    ExercisesModule,
     ExerciseTypeModule,
     ExerciseRegistrationModule,
-    RoutineModule,
+    RoutinesModule,
   ],
 })
 export class AppModule {}

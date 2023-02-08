@@ -13,15 +13,15 @@ import {
   ValidationPipe,
 } from '@nestjs/common'
 
-import { UpdateRoutineDto } from './dtos'
-import { Routine } from './entities/routines.entity'
-import { RoutineService } from './routine.service'
+import { UpdateRoutineDto } from './dto'
+import { Routine } from './entities/routine.entity'
+import { RoutinesService } from './routines.service'
 
 @Controller('routine')
 export class RoutineController {
   private logger = new Logger()
 
-  constructor(private routineService: RoutineService) {}
+  constructor(private routineService: RoutinesService) {}
 
   @Get()
   getAllRoutine() {
