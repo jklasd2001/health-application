@@ -1,17 +1,24 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
+import * as bcryptjs from 'bcryptjs'
 import { Repository } from 'typeorm'
 
-import { User } from 'src/auth'
-
-export type UserDetails = {
-  email: string
-  displayName: string
-}
+import { User, UserCredentialDto } from 'src/auth'
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(User) private readonly authRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private readonly authRepository: Repository<User>,
+    private jwtService: JwtService,
+  ) {}
 
   async findUserByEmail(email: string): Promise<User> {
     const user = await this.authRepository.findOne({
@@ -20,29 +27,77 @@ export class AuthService {
       },
     })
 
+    if (!user) {
+      throw new NotFoundException('User가 없습니다.')
+    }
+
     return user
   }
 
-  async googleSignIn({ email, name }: User) {
-    const findUser = await this.findUserByEmail(email)
+  async findUserByUsername(username: string): Promise<User> {
+    const user = await this.authRepository.findOne({
+      where: {
+        username,
+      },
+    })
 
-    // User가 없을 시
-    if (!findUser) {
-      const user = this.authRepository.create({
-        email,
-        name,
-      })
+    if (!user) {
+      throw new NotFoundException('User가 없습니다.')
+    }
 
-      if (!user) {
-        throw new BadRequestException('crete 실패')
+    return user
+  }
+
+  async signIn({ username, password }: UserCredentialDto) {
+    const user = await this.authRepository.findOne({
+      where: {
+        username,
+      },
+    })
+
+    // TODO: compare 할 땐 salt를 모르는데 어떻게 비교를해서 맞는지 아닌지 확인하는거지
+    const isPasswordMatched = await bcryptjs.compare(password, user.password)
+
+    if (user && isPasswordMatched) {
+      // 유저 토큰 생성 (Secret + Payload)
+
+      const payload = {
+        username,
       }
 
-      this.authRepository.save(user)
+      const accessToken = this.jwtService.sign(payload)
 
-      return user
+      return {
+        accessToken,
+      }
     }
-    // User가 있을 시
 
-    return findUser
+    throw new UnauthorizedException('비밀버호 정보가 맞지 않습니다.')
+  }
+
+  async signUp({ username, password }: UserCredentialDto) {
+    const salt = await bcryptjs.genSalt()
+    const hasgedPassword = await bcryptjs.hash(password, salt)
+
+    const user = this.authRepository.create({
+      username,
+      password: hasgedPassword,
+    })
+
+    if (!user) {
+      throw new BadRequestException('12312321')
+    }
+
+    try {
+      await this.authRepository.save(user)
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException('Existing username')
+      } else {
+        throw new InternalServerErrorException()
+      }
+    }
+
+    return user
   }
 }

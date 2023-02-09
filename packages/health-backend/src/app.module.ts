@@ -21,9 +21,10 @@ import { ExercisesModule } from './exercises/exercises.module'
         DATABASE_PORT: Joi.string().required(),
         DATABASE_HOST: Joi.string().required(),
         DATABASE_DATABASE: Joi.string().required(),
-        GOOGLE_CLIENT_ID: Joi.string().required(),
-        GOOGLE_CLIENT_SECRET: Joi.string().required(),
-        GOOGLE_REDIRECT: Joi.string().required(),
+        JWT_ACCESS_TOKEN_SECRET_KEY: Joi.string().required(),
+        JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        JWT_REFRESH_TOKEN_SECRET_KEY: Joi.string().required(),
+        JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({

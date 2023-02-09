@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { AuthModule } from 'src/auth'
 import {
   ExerciseRegistration,
   ExerciseRegistrationController,
@@ -15,7 +14,6 @@ import { Routine } from 'src/routines'
     TypeOrmModule.forFeature([ExerciseRegistration]),
     TypeOrmModule.forFeature([Exercise]),
     TypeOrmModule.forFeature([Routine]),
-    AuthModule,
   ],
   providers: [ExerciseRegistrationService],
   controllers: [ExerciseRegistrationController],

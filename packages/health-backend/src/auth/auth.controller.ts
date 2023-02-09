@@ -1,20 +1,23 @@
-import { Controller, Get, UseGuards } from '@nestjs/common'
+import { Body, Controller, Post, ValidationPipe } from '@nestjs/common'
 
-import { AuthService, User, GoogleOAuthGuard, GetUser } from 'src/auth'
+import { AuthService, UserCredentialDto } from 'src/auth'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  @UseGuards(GoogleOAuthGuard)
-  async googleAuth(): Promise<void> {
-    // EMPTY
+  @Post('/sign-in')
+  signIn(@Body(ValidationPipe) authCredentialDto: UserCredentialDto) {
+    return this.authService.signIn(authCredentialDto)
   }
 
-  @Get('google/callback')
-  @UseGuards(GoogleOAuthGuard)
-  async googleAuthRedirect(@GetUser() user: User): Promise<User> {
-    return this.authService.googleSignIn(user)
+  @Post('/sign-up')
+  signUp(@Body(ValidationPipe) authCredentialDto: UserCredentialDto) {
+    return this.authService.signUp(authCredentialDto)
+  }
+
+  @Post('refreshToken')
+  async generateAccessToken() {
+    // return this.authService.signIn()
   }
 }

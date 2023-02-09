@@ -40,15 +40,11 @@ export class ExerciseRegistrationService {
       },
     })
 
-    this.logger.log(exercise.id)
-
     const routine = await this.routineRepo.findOne({
       where: {
         id: routineId,
       },
     })
-
-    this.logger.log(routine.id)
 
     const exerciseRegistration = this.exerciseRegistrationRepo.create({
       ...rest,
