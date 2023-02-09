@@ -1,8 +1,8 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import { User } from 'src/auth/entities'
-import { Exercise } from 'src/exercises/entities'
-import { Routine } from 'src/routines/entities/routine.entity'
+import { User } from 'src/auth'
+import { Exercise } from 'src/exercises'
+import { Routine } from 'src/routines'
 
 @Entity()
 export class ExerciseRegistration extends BaseEntity {

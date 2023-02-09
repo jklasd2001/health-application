@@ -1,0 +1,5 @@
+export * from './dto'
+export * from './entities'
+export * from './exercises.controller'
+export * from './exercises.module'
+export * from './exercises.service'

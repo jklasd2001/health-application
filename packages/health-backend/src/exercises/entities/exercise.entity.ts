@@ -9,9 +9,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
-import { User } from 'src/auth/entities'
-import { ExerciseType } from 'src/exercise-types/entities'
-import { Routine } from 'src/routines/entities/routine.entity'
+import { User } from 'src/auth'
+import { ExerciseType } from 'src/exercise-types'
+import { Routine } from 'src/routines'
 
 @Entity()
 export class Exercise extends BaseEntity {

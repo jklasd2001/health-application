@@ -3,12 +3,13 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import Joi from 'joi'
 
-import { AuthModule } from './auth/auth.module'
-import { TypeOrmConfigService } from './config/type-orm-config-service'
-import { ExerciseRegistrationModule } from './exercise-registration/exercise-registration.module'
+import { AuthModule } from 'src/auth'
+import { TypeOrmConfigService } from 'src/config'
+import { ExerciseRegistrationModule } from 'src/exercise-registration'
+import { RoutinesModule } from 'src/routines'
+
 import { ExerciseTypeModule } from './exercise-types/exercise-types.module'
 import { ExercisesModule } from './exercises/exercises.module'
-import { RoutinesModule } from './routines/routines.module'
 
 @Module({
   imports: [

@@ -11,9 +11,12 @@ import {
   UsePipes,
 } from '@nestjs/common'
 
-import { CreateExerciseTypeDto, UpdateExerciseTypeDto } from './dto'
-import { ExerciseType } from './entities'
-import { ExerciseTypeService } from './exercise-types.service'
+import {
+  CreateExerciseTypeDto,
+  UpdateExerciseTypeDto,
+  ExerciseType,
+  ExerciseTypeService,
+} from 'src/exercise-types'
 
 @Controller('exercise-type')
 // @UseGuards(AuthGuard())

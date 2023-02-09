@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { AuthModule } from 'src/auth/auth.module'
-import { ExerciseType } from 'src/exercise-types/entities'
-
-import { Exercise } from './entities'
-import { ExercisesController } from './exercises.controller'
-import { ExercisesService } from './exercises.service'
+import { AuthModule } from 'src/auth'
+import { ExerciseType } from 'src/exercise-types'
+import { Exercise, ExercisesController, ExercisesService } from 'src/exercises'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Exercise, ExerciseType]), AuthModule],

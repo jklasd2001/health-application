@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Logger, Post, UsePipes } from '@nestjs/common'
 
-import { CreateExerciseRegistrationDto } from './dto'
-import { ExerciseRegistrationService } from './exercise-registration.service'
+import {
+  CreateExerciseRegistrationDto,
+  ExerciseRegistrationService,
+} from 'src/exercise-registration'
 
 @Controller('exercise-registration')
 // @UseGuards(AuthGuard())
