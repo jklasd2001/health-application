@@ -13,7 +13,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common'
 
-import { Routine, RoutinesService, UpdateRoutineDto } from 'src/routines'
+import { UpdateRoutineDto } from './dto/update-routine.dto'
+import { Routine } from './entities/routine.entity'
+import { RoutinesService } from './routines.service'
 
 @Controller('routine')
 export class RoutineController {

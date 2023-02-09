@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
-import { User } from 'src/auth/entities'
-import { Exercise } from 'src/exercises/entities'
+import { User } from 'src/auth/entities/user.entity'
+import { Exercise } from 'src/exercises/entities/exercise.entity'
 
 @Entity()
 export class Routine extends BaseEntity {

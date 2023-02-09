@@ -2,9 +2,11 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { CreateExerciseRegistrationDto, ExerciseRegistration } from 'src/exercise-registration'
-import { Exercise } from 'src/exercises'
-import { Routine } from 'src/routines'
+import { Exercise } from 'src/exercises/entities/exercise.entity'
+import { Routine } from 'src/routines/entities/routine.entity'
+
+import { CreateExerciseRegistrationDto } from './dto/create-exercise-registration.dto'
+import { ExerciseRegistration } from './entities/exercises-registration.entity'
 
 @Injectable()
 export class ExerciseRegistrationService {

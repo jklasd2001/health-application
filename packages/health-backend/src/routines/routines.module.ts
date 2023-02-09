@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { Exercise } from 'src/exercises'
-import { Routine, RoutineController, RoutinesService } from 'src/routines'
+import { Exercise } from 'src/exercises/entities/exercise.entity'
+
+import { Routine } from './entities/routine.entity'
+import { RoutineController } from './routines.controller'
+import { RoutinesService } from './routines.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Routine]), TypeOrmModule.forFeature([Exercise])],

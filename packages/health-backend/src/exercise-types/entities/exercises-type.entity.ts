@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import { User } from 'src/auth'
+import { User } from 'src/auth/entities/user.entity'
 
 @Entity()
 export class ExerciseType extends BaseEntity {

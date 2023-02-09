@@ -11,7 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import * as bcryptjs from 'bcryptjs'
 import { Repository } from 'typeorm'
 
-import { User, UserCredentialDto } from 'src/auth'
+import { UserCredentialDto } from './dto/user.credential.dto'
+import { User } from './entities/user.entity'
 
 @Injectable()
 export class AuthService {

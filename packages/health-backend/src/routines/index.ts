@@ -1,5 +1,0 @@
-export * from './dto'
-export * from './entities'
-export * from './routines.controller'
-export * from './routines.module'
-export * from './routines.service'

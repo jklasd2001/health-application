@@ -13,7 +13,10 @@ import {
 } from '@nestjs/common'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 
-import { CreateExerciseDto, UpdateExerciseDto, Exercise, ExercisesService } from 'src/exercises'
+import { CreateExerciseDto } from './dto/create-exercise.dto'
+import { UpdateExerciseDto } from './dto/update-exercise.dto'
+import { Exercise } from './entities/exercise.entity'
+import { ExercisesService } from './exercises.service'
 
 @ApiBearerAuth()
 @ApiTags('exercise')

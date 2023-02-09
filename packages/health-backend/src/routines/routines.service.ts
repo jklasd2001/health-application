@@ -2,8 +2,11 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { Exercise } from 'src/exercises'
-import { CreateRoutineDto, UpdateRoutineDto, Routine } from 'src/routines'
+import { Exercise } from 'src/exercises/entities/exercise.entity'
+
+import { CreateRoutineDto } from './dto/create-routine.dto'
+import { UpdateRoutineDto } from './dto/update-routine.dto'
+import { Routine } from './entities/routine.entity'
 
 @Injectable()
 export class RoutinesService {
