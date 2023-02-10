@@ -2,6 +2,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 
 import { ReactQueryDevtools } from 'react-query/devtools'
 
+import { AppProvider } from 'src/components/contexts/appcontext'
 import Header from 'src/components/Header'
 
 import type { AppProps } from 'next/app'
@@ -17,8 +18,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={client}>
       <ReactQueryDevtools />
       <Hydrate state={pageProps.dehydratedState}>
-        <Header />
-        <Component {...pageProps} />
+        <AppProvider>
+          <Header />
+          <Component {...pageProps} />
+        </AppProvider>
       </Hydrate>
     </QueryClientProvider>
   )
