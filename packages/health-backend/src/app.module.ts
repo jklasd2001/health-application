@@ -10,6 +10,7 @@ import { RoutinesModule } from 'src/routines/routines.module'
 
 import { ExerciseTypeModule } from './exercise-types/exercise-types.module'
 import { ExercisesModule } from './exercises/exercises.module'
+import { StatusModule } from './status/status.module'
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ExercisesModule } from './exercises/exercises.module'
     ExerciseTypeModule,
     ExerciseRegistrationModule,
     RoutinesModule,
+    StatusModule,
   ],
 })
 export class AppModule {}

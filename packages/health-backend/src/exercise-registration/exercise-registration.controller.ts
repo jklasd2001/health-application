@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Logger, Post, UsePipes } from '@nestjs/common'
+import { Body, Controller, Get, Logger, Post, UseGuards, UsePipes } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 
 import { CreateExerciseRegistrationDto } from './dto/create-exercise-registration.dto'
 import { ExerciseRegistrationService } from './exercise-registration.service'
 
+@UseGuards(AuthGuard())
 @Controller('exercise-registration')
 // @UseGuards(AuthGuard())
 export class ExerciseRegistrationController {
@@ -11,9 +13,7 @@ export class ExerciseRegistrationController {
 
   @Get()
   getAllExerciseRegistration() {
-    const items = this.exerciseRegistrationService.getAllExerciseRegistration()
-
-    return items
+    return this.exerciseRegistrationService.getAllExerciseRegistration()
   }
 
   @Post()

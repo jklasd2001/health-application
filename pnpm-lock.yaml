@@ -6,12 +6,17 @@ importers:
     specifiers:
       '@changesets/changelog-github': ^0.4.8
       '@changesets/cli': ^2.26.0
+      '@types/luxon': ^3.2.0
       '@types/node': 18.13.0
       eslint-config-jklasd2001s: ^0.0.1
+      luxon: ^3.2.1
       typescript: 4.9.5
+    dependencies:
+      luxon: 3.2.1
     devDependencies:
       '@changesets/changelog-github': 0.4.8
       '@changesets/cli': 2.26.0
+      '@types/luxon': 3.2.0
       '@types/node': 18.13.0
       eslint-config-jklasd2001s: 0.0.1_typescript@4.9.5
       typescript: 4.9.5
@@ -20,10 +25,11 @@ importers:
     specifiers:
       '@nestjs/cli': ^9.2.0
       '@nestjs/common': ^9.3.7
-      '@nestjs/config': ^2.3.0
+      '@nestjs/config': ^2.3.1
       '@nestjs/core': ^9.3.7
-      '@nestjs/jwt': ^10.0.1
-      '@nestjs/passport': ^9.0.2
+      '@nestjs/jwt': ^10.0.2
+      '@nestjs/mapped-types': '*'
+      '@nestjs/passport': ^9.0.3
       '@nestjs/platform-express': ^9.3.7
       '@nestjs/schematics': ^9.0.4
       '@nestjs/swagger': ^6.2.1
@@ -61,6 +67,7 @@ importers:
       '@nestjs/config': 2.3.1_ojttuksvundfk3amlyo674va74
       '@nestjs/core': 9.3.7_ipss6dxf5icme2x7c6jvrkkrmq
       '@nestjs/jwt': 10.0.2_@nestjs+common@9.3.7
+      '@nestjs/mapped-types': 1.2.2_2r4p35dlrn4tfrb3pj5q26jjgy
       '@nestjs/passport': 9.0.3_2lo5boulyhai36ocas6bn57y6i
       '@nestjs/platform-express': 9.3.7_zmctrozi6xxh3beaccl6ebop6u
       '@nestjs/swagger': 6.2.1_jjbyc6pqcvxgl3f7h6wjn7d25e
@@ -2041,6 +2048,10 @@ packages:
     dependencies:
       '@types/node': 18.13.0
     dev: false
+
+  /@types/luxon/3.2.0:
+    resolution: {integrity: sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA==}
+    dev: true
 
   /@types/mime/3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
@@ -5607,6 +5618,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /luxon/3.2.1:
+    resolution: {integrity: sha512-QrwPArQCNLAKGO/C+ZIilgIuDnEnKx5QYODdDtbFaxzsbZcc/a7WFq7MhsVYgRlwawLtvOUESTlfJ+hc/USqPg==}
+    engines: {node: '>=12'}
+    dev: false
 
   /macos-release/2.5.0:
     resolution: {integrity: sha512-EIgv+QZ9r+814gjJj0Bt5vSLJLzswGmSUbUpbi9AIr/fsN2IWFBl2NucV9PAiek+U1STK468tEkxmVYUtuAN3g==}

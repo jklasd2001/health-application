@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { User } from 'src/auth/entities/user.entity'
+
 import { CreateExerciseTypeDto } from './dto/create-exercise-type.dto'
 import { UpdateExerciseTypeDto } from './dto/update-exercise-type.dto'
 import { ExerciseType } from './entities/exercises-type.entity'
@@ -34,9 +36,10 @@ export class ExerciseTypeService {
     return exercise
   }
 
-  async createExercise({ name }: CreateExerciseTypeDto) {
+  async createExercise(user: User, { name }: CreateExerciseTypeDto) {
     const exerciseType = this.exerciseTypeRepo.create({
       name,
+      user,
     })
 
     if (!exerciseType) {

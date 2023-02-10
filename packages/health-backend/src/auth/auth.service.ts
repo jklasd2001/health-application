@@ -11,7 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import * as bcryptjs from 'bcryptjs'
 import { Repository } from 'typeorm'
 
-import { UserCredentialDto } from './dto/user.credential.dto'
+import { SignInDto, SignUpDto } from 'src/auth'
+
 import { User } from './entities/user.entity'
 
 @Injectable()
@@ -20,20 +21,6 @@ export class AuthService {
     @InjectRepository(User) private readonly authRepository: Repository<User>,
     private jwtService: JwtService,
   ) {}
-
-  async findUserByEmail(email: string): Promise<User> {
-    const user = await this.authRepository.findOne({
-      where: {
-        email,
-      },
-    })
-
-    if (!user) {
-      throw new NotFoundException('User가 없습니다.')
-    }
-
-    return user
-  }
 
   async findUserByUsername(username: string): Promise<User> {
     const user = await this.authRepository.findOne({
@@ -49,14 +36,14 @@ export class AuthService {
     return user
   }
 
-  async signIn({ username, password }: UserCredentialDto) {
+  async signIn({ username, password }: SignInDto) {
     const user = await this.authRepository.findOne({
       where: {
         username,
       },
     })
 
-    // TODO: compare 할 땐 salt를 모르는데 어떻게 비교를해서 맞는지 아닌지 확인하는거지
+    // 잘 모르겠음
     const isPasswordMatched = await bcryptjs.compare(password, user.password)
 
     if (user && isPasswordMatched) {
@@ -76,22 +63,26 @@ export class AuthService {
     throw new UnauthorizedException('비밀버호 정보가 맞지 않습니다.')
   }
 
-  async signUp({ username, password }: UserCredentialDto) {
+  async signUp({ username, password, name }: SignUpDto) {
     const salt = await bcryptjs.genSalt()
-    const hasgedPassword = await bcryptjs.hash(password, salt)
+    const hashedPassword = await bcryptjs.hash(password, salt)
 
     const user = this.authRepository.create({
       username,
-      password: hasgedPassword,
+      password: hashedPassword,
+      name,
     })
 
     if (!user) {
-      throw new BadRequestException('12312321')
+      throw new BadRequestException('유저 생성 실패했습니다.')
     }
 
     try {
       await this.authRepository.save(user)
+
+      console.log('123123')
     } catch (error) {
+      console.log(error)
       if (error.code === '23505') {
         throw new ConflictException('Existing username')
       } else {

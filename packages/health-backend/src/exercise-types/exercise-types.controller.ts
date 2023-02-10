@@ -8,8 +8,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
+
+import { GetUser } from 'src/auth/decorators/get-user.decorator'
+import { User } from 'src/auth/entities/user.entity'
 
 import { CreateExerciseTypeDto } from './dto/create-exercise-type.dto'
 import { UpdateExerciseTypeDto } from './dto/update-exercise-type.dto'
@@ -17,7 +22,7 @@ import { ExerciseType } from './entities/exercises-type.entity'
 import { ExerciseTypeService } from './exercise-types.service'
 
 @Controller('exercise-type')
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard())
 export class ExerciseTypeController {
   private logger = new Logger('ExerciseTypeController')
   constructor(private readonly exerciseTypeService: ExerciseTypeService) {}
@@ -34,8 +39,9 @@ export class ExerciseTypeController {
   }
 
   @Post()
-  createExerciseType(@Body() createExerciseTypeDto: CreateExerciseTypeDto) {
-    return this.exerciseTypeService.createExercise(createExerciseTypeDto)
+  createExerciseType(@GetUser() user: User, @Body() createExerciseTypeDto: CreateExerciseTypeDto) {
+    console.log(user)
+    return this.exerciseTypeService.createExercise(user, createExerciseTypeDto)
   }
 
   @Patch('/:id')

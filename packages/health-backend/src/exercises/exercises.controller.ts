@@ -8,9 +8,11 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 
 import { CreateExerciseDto } from './dto/create-exercise.dto'
@@ -21,7 +23,7 @@ import { ExercisesService } from './exercises.service'
 @ApiBearerAuth()
 @ApiTags('exercise')
 @Controller('exercise')
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard())
 export class ExercisesController {
   private logger = new Logger('ExerciseController')
   constructor(private readonly exercisesService: ExercisesService) {}

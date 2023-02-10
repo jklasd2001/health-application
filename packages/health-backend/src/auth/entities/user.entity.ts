@@ -10,11 +10,13 @@ export class User extends BaseEntity {
   username: string
 
   @Column()
-  email: string
-
-  @Column()
   name: string
 
   @Column()
   password: string
+
+  @Column({
+    default: false,
+  })
+  isExercising: boolean
 }

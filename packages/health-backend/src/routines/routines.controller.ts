@@ -9,15 +9,18 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 
 import { UpdateRoutineDto } from './dto/update-routine.dto'
 import { Routine } from './entities/routine.entity'
 import { RoutinesService } from './routines.service'
 
 @Controller('routine')
+@UseGuards(AuthGuard())
 export class RoutineController {
   private logger = new Logger()
 
