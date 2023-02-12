@@ -4,7 +4,7 @@ export default [
     name: '벤치프레스',
     weight: 60,
     reps: 6,
-    break: 90,
+    restPeriod: 90,
     memo: '벤치 슈퍼세트',
   },
   {
@@ -12,7 +12,7 @@ export default [
     name: '인클라인 벤치프레스',
     weight: 40,
     reps: 6,
-    break: 90,
+    restPeriod: 90,
     memo: '',
   },
   {
@@ -20,7 +20,7 @@ export default [
     name: '네로우 벤치프레스',
     weight: 40,
     reps: 6,
-    break: 90,
+    restPeriod: 90,
     memo: '',
   },
   {
@@ -28,7 +28,7 @@ export default [
     name: '데드리프트',
     weight: 140,
     reps: 2,
-    break: 120,
+    restPeriod: 120,
     memo: '',
   },
   {
@@ -36,7 +36,7 @@ export default [
     name: '스쿼트',
     weight: 100,
     reps: 5,
-    break: 120,
+    restPeriod: 120,
     memo: '',
   },
   {
@@ -44,7 +44,7 @@ export default [
     name: '랫풀다운',
     weight: 60,
     reps: 5,
-    break: 90,
+    restPeriod: 90,
     memo: '',
   },
 ]

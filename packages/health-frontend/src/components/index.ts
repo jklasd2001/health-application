@@ -1,1 +1,1 @@
-export * from './ExerciseTypeItem'
+export * from './Movement'
