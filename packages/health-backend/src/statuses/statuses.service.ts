@@ -13,16 +13,16 @@ import { Routine } from 'src/routines/entities/routine.entity'
 import { Status } from './entities/status.entity'
 
 @Injectable()
-export class StatusService {
+export class StatusesService {
   constructor(
-    @InjectRepository(Status) private readonly statusRepository: Repository<Status>,
-    @InjectRepository(Routine) private readonly routineRepository: Repository<Routine>,
+    @InjectRepository(Status) private readonly statusRepo: Repository<Status>,
+    @InjectRepository(Routine) private readonly routineRepo: Repository<Routine>,
     @InjectRepository(History)
-    private readonly erRepository: Repository<History>,
+    private readonly histotryRepo: Repository<History>,
   ) {}
 
   async getStatusByUserName(userId: number) {
-    const status = this.statusRepository
+    const status = this.statusRepo
       .createQueryBuilder('status')
       .where('status.userId = :userId', { userId })
       .getOne()
@@ -41,7 +41,7 @@ export class StatusService {
       throw new BadRequestException('이미 운동 시작 중입니다.')
     }
 
-    const routine = await this.routineRepository.findOne({
+    const routine = await this.routineRepo.findOne({
       where: {
         id: routineId,
       },
@@ -51,7 +51,7 @@ export class StatusService {
     status.routine = routine
 
     try {
-      await this.statusRepository.update(status.id, status)
+      await this.statusRepo.update(status.id, status)
     } catch (error) {
       throw new InternalServerErrorException()
     }
@@ -66,7 +66,7 @@ export class StatusService {
 
     status.isExercising = false
 
-    const ers = this.erRepository
+    const histories = this.histotryRepo
       .createQueryBuilder('exercise-registration')
       .where('exercise-registration.routineId', { routineId: status.routine.id })
 
@@ -83,7 +83,7 @@ export class StatusService {
      */
 
     try {
-      await this.statusRepository.update(status.id, status)
+      await this.statusRepo.update(status.id, status)
     } catch (error) {
       throw new InternalServerErrorException()
     }

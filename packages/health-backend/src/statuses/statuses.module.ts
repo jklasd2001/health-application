@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { History } from 'src/histories/entities/history.entity'
 import { Exercise } from 'src/exercises/entities/exercise.entity'
+import { History } from 'src/histories/entities/history.entity'
 import { Routine } from 'src/routines/entities/routine.entity'
 
 import { Status } from './entities/status.entity'
-import { StatusController } from './status.controller'
-import { StatusService } from './status.service'
+import { StatusesController } from './statuses.controller'
+import { StatusesService } from './statuses.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Status, Routine, History, Exercise])],
-  controllers: [StatusController],
-  providers: [StatusService],
+  controllers: [StatusesController],
+  providers: [StatusesService],
 })
-export class StatusModule {}
+export class StatusesModule {}

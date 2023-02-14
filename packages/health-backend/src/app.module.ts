@@ -10,7 +10,7 @@ import { RoutinesModule } from 'src/routines/routines.module'
 
 import { ExercisesModule } from './exercises/exercises.module'
 import { MovementsModule } from './movements/movements.module'
-import { StatusModule } from './status/status.module'
+import { StatusesModule } from './statuses/statuses.module'
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { StatusModule } from './status/status.module'
     MovementsModule,
     HistoriesModule,
     RoutinesModule,
-    StatusModule,
+    StatusesModule,
   ],
 })
 export class AppModule {}

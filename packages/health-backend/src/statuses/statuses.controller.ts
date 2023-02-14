@@ -2,16 +2,16 @@ import { Controller, Post, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 
 import { StartExerciseDto } from './dto/start-exercise.dto'
-import { StatusService } from './status.service'
+import { StatusesService } from './statuses.service'
 
-@Controller('status')
+@Controller('statuses')
 @UseGuards(AuthGuard())
-export class StatusController {
-  constructor(private readonly statusService: StatusService) {}
+export class StatusesController {
+  constructor(private readonly statusesService: StatusesService) {}
 
   @Post('start')
   async startExercise({ routineId }: StartExerciseDto) {
-    return this.statusService.startExercise(123, routineId)
+    return this.statusesService.startExercise(123, routineId)
   }
 
   @Post('end')
