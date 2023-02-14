@@ -23,7 +23,7 @@ import { ExercisesService } from './exercises.service'
 @ApiBearerAuth()
 @ApiTags('exercise')
 @Controller('exercise')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class ExercisesController {
   private logger = new Logger('ExerciseController')
   constructor(private readonly exercisesService: ExercisesService) {}

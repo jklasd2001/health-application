@@ -9,7 +9,6 @@ import {
   Patch,
   Post,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 
@@ -22,7 +21,7 @@ import { ExerciseType } from './entities/exercises-type.entity'
 import { ExerciseTypeService } from './exercise-types.service'
 
 @Controller('exercise-type')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class ExerciseTypeController {
   private logger = new Logger('ExerciseTypeController')
   constructor(private readonly exerciseTypeService: ExerciseTypeService) {}
@@ -33,7 +32,6 @@ export class ExerciseTypeController {
   }
 
   @Get('/:id')
-  @UsePipes()
   getExerciseTypeById(@Param('id', ParseIntPipe) id: number): Promise<ExerciseType> {
     return this.exerciseTypeService.getExerciseTypeById(id)
   }
@@ -45,8 +43,10 @@ export class ExerciseTypeController {
   }
 
   @Patch('/:id')
-  // @UsePipes(ValidationPipe)
-  updateExerciseType(@Param('id') id: number, @Body() updateExerciseDto: UpdateExerciseTypeDto) {
+  updateExerciseType(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateExerciseDto: UpdateExerciseTypeDto,
+  ) {
     return this.exerciseTypeService.updateExercise({ id, ...updateExerciseDto })
   }
 

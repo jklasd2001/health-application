@@ -22,7 +22,7 @@ export class AuthController {
   }
 
   @Post('test')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   async generateAccessToken(@GetUser() user: User) {
     console.log(user)
     // return this.authService.signIn()

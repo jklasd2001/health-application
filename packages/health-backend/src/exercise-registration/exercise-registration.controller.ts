@@ -4,9 +4,9 @@ import { AuthGuard } from '@nestjs/passport'
 import { CreateExerciseRegistrationDto } from './dto/create-exercise-registration.dto'
 import { ExerciseRegistrationService } from './exercise-registration.service'
 
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 @Controller('exercise-registration')
-// @UseGuards(AuthGuard())
+// @UseGuards(AuthGuard('jwt'))
 export class ExerciseRegistrationController {
   private logger = new Logger('ExerciseTypeController')
   constructor(private readonly exerciseRegistrationService: ExerciseRegistrationService) {}

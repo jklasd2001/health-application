@@ -5,7 +5,7 @@ import { StartExerciseDto } from './dto/start-exercise.dto'
 import { StatusService } from './status.service'
 
 @Controller('status')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class StatusController {
   constructor(private readonly statusService: StatusService) {}
 
