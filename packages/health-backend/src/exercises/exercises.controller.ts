@@ -21,11 +21,11 @@ import { Exercise } from './entities/exercise.entity'
 import { ExercisesService } from './exercises.service'
 
 @ApiBearerAuth()
-@ApiTags('exercise')
-@Controller('exercise')
-@UseGuards(AuthGuard('jwt'))
+@ApiTags('exercises')
+@Controller('exercises')
+@UseGuards(AuthGuard())
 export class ExercisesController {
-  private logger = new Logger('ExerciseController')
+  private logger = new Logger('ExercisesController')
   constructor(private readonly exercisesService: ExercisesService) {}
 
   @Get()

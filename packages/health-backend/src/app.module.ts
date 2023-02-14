@@ -5,11 +5,11 @@ import Joi from 'joi'
 
 import { AuthModule } from 'src/auth/auth.module'
 import { TypeOrmConfigService } from 'src/config/type-orm-config-service'
-import { ExerciseRegistrationModule } from 'src/exercise-registration/exercise-registration.module'
+import { HistoriesModule } from 'src/histories/histories.module'
 import { RoutinesModule } from 'src/routines/routines.module'
 
-import { ExerciseTypeModule } from './exercise-types/exercise-types.module'
 import { ExercisesModule } from './exercises/exercises.module'
+import { MovementsModule } from './movements/movements.module'
 import { StatusModule } from './status/status.module'
 
 @Module({
@@ -34,8 +34,8 @@ import { StatusModule } from './status/status.module'
     }),
     AuthModule,
     ExercisesModule,
-    ExerciseTypeModule,
-    ExerciseRegistrationModule,
+    MovementsModule,
+    HistoriesModule,
     RoutinesModule,
     StatusModule,
   ],

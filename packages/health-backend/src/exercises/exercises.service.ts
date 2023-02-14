@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { ExerciseType } from 'src/exercise-types/entities/exercises-type.entity'
+import { Movement } from 'src/movements/entities/movement.entity'
 
 import { CreateExerciseDto } from './dto/create-exercise.dto'
 import { UpdateExerciseDto } from './dto/update-exercise.dto'
@@ -11,13 +11,13 @@ import { Exercise } from './entities/exercise.entity'
 @Injectable()
 export class ExercisesService {
   constructor(
-    @InjectRepository(Exercise) private readonly exercisesRepository: Repository<Exercise>,
-    @InjectRepository(ExerciseType)
-    private readonly exerciseTypeRepository: Repository<ExerciseType>,
+    @InjectRepository(Exercise) private readonly exercisesRepo: Repository<Exercise>,
+    @InjectRepository(Movement)
+    private readonly exerciseTypeRepository: Repository<Movement>,
   ) {}
 
   async getAllExercise() {
-    const allExercise = await this.exercisesRepository.find({
+    const allExercise = await this.exercisesRepo.find({
       relations: {
         exerciseType: true,
       },
@@ -27,7 +27,7 @@ export class ExercisesService {
   }
 
   async getExerciseById(id: number): Promise<Exercise> {
-    const exercise = await this.exercisesRepository.findOne({
+    const exercise = await this.exercisesRepo.findOne({
       where: {
         id,
       },
@@ -57,7 +57,7 @@ export class ExercisesService {
       throw new BadRequestException('Exercise Type이 없어용')
     }
 
-    const exercise = this.exercisesRepository.create({
+    const exercise = this.exercisesRepo.create({
       ...rest,
       exerciseType,
     })
@@ -66,7 +66,7 @@ export class ExercisesService {
       throw new BadRequestException('crete 실패')
     }
 
-    this.exercisesRepository.save(exercise)
+    this.exercisesRepo.save(exercise)
 
     return exercise
   }
@@ -78,13 +78,13 @@ export class ExercisesService {
       ...rest,
     }
 
-    this.exercisesRepository.save(newExercise)
+    this.exercisesRepo.save(newExercise)
 
     return newExercise
   }
 
   async deleteExecise(id: number) {
-    const result = await this.exercisesRepository.delete(id)
+    const result = await this.exercisesRepo.delete(id)
 
     if (result.affected === 0) {
       throw new NotFoundException('찾을 수 없어용')

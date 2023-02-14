@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 import { User } from 'src/auth/entities/user.entity'
 
 @Entity()
-export class ExerciseType extends BaseEntity {
+export class Movement extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 

@@ -20,7 +20,7 @@ import { Routine } from './entities/routine.entity'
 import { RoutinesService } from './routines.service'
 
 @Controller('routine')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard())
 export class RoutineController {
   private logger = new Logger()
 

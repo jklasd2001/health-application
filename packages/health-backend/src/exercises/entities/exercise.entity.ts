@@ -10,7 +10,7 @@ import {
 } from 'typeorm'
 
 import { User } from 'src/auth/entities/user.entity'
-import { ExerciseType } from 'src/exercise-types/entities/exercises-type.entity'
+import { Movement } from 'src/movements/entities/movement.entity'
 import { Routine } from 'src/routines/entities/routine.entity'
 
 @Entity()
@@ -52,9 +52,9 @@ export class Exercise extends BaseEntity {
   @CreateDateColumn()
   updatedAt: string
 
-  @OneToOne(() => ExerciseType)
+  @OneToOne(() => Movement)
   @JoinColumn()
-  exerciseType: ExerciseType
+  exerciseType: Movement
 
   @ManyToOne(() => Routine, (routine) => routine.exercises)
   routine: Routine

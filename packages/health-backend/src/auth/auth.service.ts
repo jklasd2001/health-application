@@ -11,8 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import * as bcryptjs from 'bcryptjs'
 import { Repository } from 'typeorm'
 
-import { SignInDto, SignUpDto } from 'src/auth'
-
+import { SignInDto, SignUpDto } from './'
 import { User } from './entities/user.entity'
 
 @Injectable()

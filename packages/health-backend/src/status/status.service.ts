@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { ExerciseRegistration } from 'src/exercise-registration/entities/exercises-registration.entity'
+import { History } from 'src/histories/entities/history.entity'
 import { Routine } from 'src/routines/entities/routine.entity'
 
 import { Status } from './entities/status.entity'
@@ -17,8 +17,8 @@ export class StatusService {
   constructor(
     @InjectRepository(Status) private readonly statusRepository: Repository<Status>,
     @InjectRepository(Routine) private readonly routineRepository: Repository<Routine>,
-    @InjectRepository(ExerciseRegistration)
-    private readonly erRepository: Repository<ExerciseRegistration>,
+    @InjectRepository(History)
+    private readonly erRepository: Repository<History>,
   ) {}
 
   async getStatusByUserName(userId: number) {
