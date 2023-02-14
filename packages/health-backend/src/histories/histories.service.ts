@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DateTime } from 'luxon'
-import { Between, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 
 import { User } from 'src/auth/entities/user.entity'
 import { Exercise } from 'src/exercises/entities/exercise.entity'
@@ -12,7 +12,6 @@ import { History } from './entities/history.entity'
 
 @Injectable()
 export class HistoriesService {
-  private logger = new Logger()
   constructor(
     @InjectRepository(History)
     private historyRepo: Repository<History>,
@@ -67,19 +66,19 @@ export class HistoriesService {
       const endDateTime = DateTime.fromISO(date).endOf('month')
 
       const histories = await this.historyRepo
-        .createQueryBuilder('exercise_history')
-        .where(
-          `exercise_history.created_at BETWEEN ${startDateTime.toISO()} AND ${endDateTime.toISO()}`,
-        )
+        .createQueryBuilder('history')
+        .where(`history.user = :userId`, { userId: user.id })
+        .andWhere(`history.created_at >= :start_at`, { start_at: startDateTime.toJSDate() })
+        .andWhere(`history.created_at <= :end_at`, { end_at: endDateTime.toJSDate() })
         .getMany()
 
       const groupedHistories = histories.reduce((prev, current) => {
-        const yearAndMonth = DateTime.fromISO(current.createdAt).toFormat('yyyy-MM')
+        const yearAndMonth = DateTime.fromJSDate(current.createdAt).toFormat('yyyy-MM')
 
         prev[yearAndMonth] = [...prev[yearAndMonth], current]
 
         return prev
-      }, {})
+      }, {} as Record<string, History[]>)
 
       return groupedHistories
     } catch (err) {
@@ -92,11 +91,12 @@ export class HistoriesService {
       const startDateTime = DateTime.fromISO(date).startOf('day')
       const endDateTime = DateTime.fromISO(date).endOf('day')
 
-      const histories = this.historyRepo.find({
-        where: {
-          createdAt: Between(startDateTime.toISO(), endDateTime.toISO()),
-        },
-      })
+      const histories = await this.historyRepo
+        .createQueryBuilder('history')
+        .where(`history.user = :userId`, { userId: user.id })
+        .andWhere(`history.created_at >= :start_at`, { start_at: startDateTime.toJSDate() })
+        .andWhere(`history.created_at <= :end_at`, { end_at: endDateTime.toJSDate() })
+        .getMany()
 
       return histories
     } catch (err) {
