@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -23,31 +22,30 @@ import { MovementsService } from './movements.service'
 @UseGuards(AuthGuard())
 @Controller('movements')
 export class MovementsController {
-  private logger = new Logger('MovementsController')
   constructor(private readonly movementService: MovementsService) {}
 
   @Get()
-  getAllMovement() {
-    return this.movementService.getAllMovement()
+  getAllMovement(@GetUser() user: User) {
+    return this.movementService.getAllMovement(user)
   }
 
   @Get('/:id')
-  getMovementById(@Param('id', ParseIntPipe) id: number): Promise<Movement> {
-    return this.movementService.getMovementById(id)
+  getMovementById(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<Movement> {
+    return this.movementService.getMovementById(user, id)
   }
 
   @Post()
   createMovement(@GetUser() user: User, @Body() createExerciseTypeDto: CreateMovementDto) {
-    console.log(user)
     return this.movementService.createMovement(user, createExerciseTypeDto)
   }
 
   @Patch('/:id')
   updateMovement(
     @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
     @Body() updateExerciseDto: UpdateMovementDto,
   ) {
-    return this.movementService.updateMovement({ id, ...updateExerciseDto })
+    return this.movementService.updateMovement(user, { id, ...updateExerciseDto })
   }
 
   @Delete('/:id')

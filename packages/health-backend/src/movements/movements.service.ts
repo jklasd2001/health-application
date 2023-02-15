@@ -12,28 +12,32 @@ import { Movement as Movement } from './entities/movement.entity'
 export class MovementsService {
   constructor(@InjectRepository(Movement) private movementRepo: Repository<Movement>) {}
 
-  async getAllMovement(): Promise<Movement[]> {
-    const result = await this.movementRepo.find({
-      order: {
-        id: 'ASC',
-      },
-    })
+  async getAllMovement(user: User): Promise<Movement[]> {
+    const movements = await this.movementRepo
+      .createQueryBuilder('movement')
+      .leftJoinAndSelect('movement.user', 'user')
+      .where('movement.user_id IS NULL')
+      .orWhere('user.id = :userId', { userId: user.id })
+      .getMany()
 
-    return result
+    return movements
   }
 
-  async getMovementById(id: number): Promise<Movement> {
-    const exercise = await this.movementRepo.findOne({
-      where: {
-        id,
-      },
-    })
+  async getMovementById(user: User, id: number): Promise<Movement> {
+    const movement = await this.movementRepo
+      .createQueryBuilder('movement')
+      .leftJoinAndSelect('movement.user', 'user')
+      .orWhere('movement.id = :movementId AND user.id = :userId', {
+        movementId: id,
+        userId: user.id,
+      })
+      .getOne()
 
-    if (!exercise) {
+    if (!movement) {
       throw new NotFoundException('없다 이 운동')
     }
 
-    return exercise
+    return movement
   }
 
   async createMovement(user: User, { name }: CreateMovementDto) {
@@ -51,8 +55,8 @@ export class MovementsService {
     return movement
   }
 
-  async updateMovement({ id, ...rest }: UpdateMovementDto) {
-    const movement = await this.getMovementById(id)
+  async updateMovement(user: User, { id, ...rest }: UpdateMovementDto) {
+    const movement = await this.getMovementById(user, id)
     const newMovement = {
       ...movement,
       ...rest,
