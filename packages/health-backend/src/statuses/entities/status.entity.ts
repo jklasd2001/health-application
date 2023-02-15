@@ -1,9 +1,11 @@
-import { Column, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { User } from 'src/auth/entities/user.entity'
+import { BaseTimeEntity } from 'src/commons/entities/base-time.entity'
 import { Routine } from 'src/routines/entities/routine.entity'
 
-export class Status {
+@Entity()
+export class Status extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -11,9 +13,6 @@ export class Status {
     default: false,
   })
   isExercising: boolean
-
-  @UpdateDateColumn()
-  updatedAt: string
 
   @OneToOne(() => Routine)
   @JoinColumn()

@@ -1,20 +1,12 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { User } from 'src/auth/entities/user.entity'
+import { BaseTimeEntity } from 'src/commons/entities/base-time.entity'
 import { Movement } from 'src/movements/entities/movement.entity'
 import { Routine } from 'src/routines/entities/routine.entity'
 
 @Entity()
-export class Exercise extends BaseEntity {
+export class Exercise extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -45,12 +37,6 @@ export class Exercise extends BaseEntity {
 
   @Column()
   memo: string
-
-  @CreateDateColumn()
-  createdAt: string
-
-  @CreateDateColumn()
-  updatedAt: string
 
   @OneToOne(() => Movement)
   @JoinColumn()

@@ -1,18 +1,11 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 import { User } from 'src/auth/entities/user.entity'
+import { BaseTimeEntity } from 'src/commons/entities/base-time.entity'
 import { Exercise } from 'src/exercises/entities/exercise.entity'
 
 @Entity()
-export class Routine extends BaseEntity {
+export class Routine extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   id: number
 
