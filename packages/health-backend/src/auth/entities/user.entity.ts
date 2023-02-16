@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
 import { BaseTimeEntity } from 'src/commons/entities/base-time.entity'
 
 @Entity()
-@Unique(['username']) // email은 중복되지 않게
+@Unique(['username']) // username 중복되지 않게
 export class User extends BaseTimeEntity {
   @PrimaryGeneratedColumn()
   id: number
@@ -21,4 +21,9 @@ export class User extends BaseTimeEntity {
     default: false,
   })
   isExercising: boolean
+
+  @Column({
+    nullable: true,
+  })
+  refreshToken?: string
 }

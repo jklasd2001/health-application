@@ -10,8 +10,6 @@ import { RoutinesModule } from 'src/routines/routines.module'
 
 import { ExercisesModule } from './exercises/exercises.module'
 import { MovementsModule } from './movements/movements.module'
-import { StatusesModule } from './statuses/statuses.module'
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -37,7 +35,6 @@ import { StatusesModule } from './statuses/statuses.module'
     MovementsModule,
     HistoriesModule,
     RoutinesModule,
-    StatusesModule,
   ],
 })
 export class AppModule {}

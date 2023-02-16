@@ -15,9 +15,8 @@ export class MovementsService {
   async getAllMovement(user: User): Promise<Movement[]> {
     const movements = await this.movementRepo
       .createQueryBuilder('movement')
-      .leftJoinAndSelect('movement.user', 'user')
       .where('movement.user_id IS NULL')
-      .orWhere('user.id = :userId', { userId: user.id })
+      .orWhere('movement.user_id = :userId', { userId: user.id })
       .getMany()
 
     return movements
@@ -26,7 +25,6 @@ export class MovementsService {
   async getMovementById(user: User, id: number): Promise<Movement> {
     const movement = await this.movementRepo
       .createQueryBuilder('movement')
-      .leftJoinAndSelect('movement.user', 'user')
       .orWhere('movement.id = :movementId AND user.id = :userId', {
         movementId: id,
         userId: user.id,

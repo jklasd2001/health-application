@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service'
 import { User } from '../entities/user.entity'
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private readonly authService: AuthService, private configService: ConfigService) {
     super({
       secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET_KEY'),

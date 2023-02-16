@@ -6,6 +6,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import * as bcryptjs from 'bcryptjs'
@@ -18,7 +19,8 @@ import { User } from './entities/user.entity'
 export class AuthService {
   constructor(
     @InjectRepository(User) private readonly authRepository: Repository<User>,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async findUserByUsername(username: string): Promise<User> {
@@ -78,10 +80,7 @@ export class AuthService {
 
     try {
       await this.authRepository.save(user)
-
-      console.log('123123')
     } catch (error) {
-      console.log(error)
       if (error.code === '23505') {
         throw new ConflictException('Existing username')
       } else {
@@ -90,5 +89,35 @@ export class AuthService {
     }
 
     return user
+  }
+
+  async getTokens(userId: string, username: string) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
+          expiresIn: '15m',
+        },
+      ),
+      this.jwtService.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
+          expiresIn: '15m',
+        },
+      ),
+    ])
+
+    return {
+      accessToken,
+      refreshToken,
+    }
   }
 }
