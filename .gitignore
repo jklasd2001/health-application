@@ -39,3 +39,8 @@ next-env.d.ts
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# PWA Ignore
+**/public/workbox-*.js
+**/public/sw.js
+**/public/fallback-*.js

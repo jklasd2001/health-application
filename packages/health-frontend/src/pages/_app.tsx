@@ -1,28 +1,27 @@
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import { Fragment } from 'react'
 
-import { ReactQueryDevtools } from 'react-query/devtools'
-
-import { AppProvider } from 'src/components/contexts/appcontext'
-import Header from 'src/components/Header'
+import Head from 'next/head'
 
 import type { AppProps } from 'next/app'
 
 import 'src/styles/globals.css'
 
-const client = new QueryClient({
-  defaultOptions: {},
-})
-
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <QueryClientProvider client={client}>
-      <ReactQueryDevtools />
-      <Hydrate state={pageProps.dehydratedState}>
-        <AppProvider>
-          <Header />
-          <Component {...pageProps} />
-        </AppProvider>
-      </Hydrate>
-    </QueryClientProvider>
+    <Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
+      </Head>
+
+      <div className="min-w-[320px] max-w-md mx-auto">
+        <div className="sticky top-0">header</div>
+        <Component {...pageProps} />
+      </div>
+    </Fragment>
   )
 }
+
+export default App
