@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common'
 
 import { GetUser } from 'src/auth/decorators/get-user.decorator'
 import { User } from 'src/auth/entities/user.entity'
@@ -19,7 +8,6 @@ import { UpdateMovementDto } from './dto/update-movement.dto'
 import { Movement } from './entities/movement.entity'
 import { MovementsService } from './movements.service'
 
-@UseGuards(AuthGuard())
 @Controller('movements')
 export class MovementsController {
   constructor(private readonly movementService: MovementsService) {}

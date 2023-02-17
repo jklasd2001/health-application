@@ -1,10 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { Request } from 'express'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
-import { JwtTokenPayLoad } from 'src/types/JwtTokenPayLoad'
+import { JwtTokenPayLoad } from 'src/auth/types/JwtTokenPayLoad'
 
 import { AuthService } from '../auth.service'
 
@@ -24,7 +24,13 @@ export class RefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refres
   }
 
   async validate(req: Request, payload: JwtTokenPayLoad) {
+    console.log(req)
     const refreshToken = req.get('Authorization').replace('Bearer', '').trim()
+
+    if (!refreshToken) {
+      throw new ForbiddenException()
+    }
+
     return {
       ...payload,
       refreshToken,

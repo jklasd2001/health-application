@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -9,7 +10,7 @@ import {
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
-import * as bcryptjs from 'bcryptjs'
+import { genSalt, hash, compare } from 'bcryptjs'
 import { Repository } from 'typeorm'
 
 import { SignInDto, SignUpDto } from './'
@@ -23,10 +24,10 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async findUserByUsername(username: string): Promise<User> {
+  async findUserById(userId: number): Promise<User> {
     const user = await this.authRepository.findOne({
       where: {
-        username,
+        id: userId,
       },
     })
 
@@ -45,28 +46,31 @@ export class AuthService {
     })
 
     // 잘 모르겠음
-    const isPasswordMatched = await bcryptjs.compare(password, user.password)
+    const isPasswordMatched = await compare(password, user.password)
 
     if (user && isPasswordMatched) {
       // 유저 토큰 생성 (Secret + Payload)
+      const tokens = await this.getTokens(user.id, user.username)
+      await this.updateRefreshToken(user.id, tokens.refreshToken)
 
-      const payload = {
-        username,
-      }
-
-      const accessToken = this.jwtService.sign(payload)
-
-      return {
-        accessToken,
-      }
+      return tokens
     }
 
-    throw new UnauthorizedException('비밀버호 정보가 맞지 않습니다.')
+    throw new UnauthorizedException()
+  }
+
+  // 유저 조회 후 refreshToken을 null로 만듬
+  async signOut(userId: number): Promise<boolean> {
+    const user = await this.findUserById(userId)
+    user.refreshToken = null
+
+    this.authRepository.save(user)
+
+    return true
   }
 
   async signUp({ username, password, name }: SignUpDto) {
-    const salt = await bcryptjs.genSalt()
-    const hashedPassword = await bcryptjs.hash(password, salt)
+    const hashedPassword = await this.hashData(password)
 
     const user = this.authRepository.create({
       username,
@@ -91,28 +95,54 @@ export class AuthService {
     return user
   }
 
-  async getTokens(userId: string, username: string) {
+  // string 해시 처리
+  async hashData(data: string): Promise<string> {
+    const salt = await genSalt()
+    const hashedData = await hash(data, salt)
+    return hashedData
+  }
+
+  async updateAccessToken(userId: number, refreshToken: string) {
+    const user = await this.findUserById(userId)
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException()
+    }
+
+    const isRefreshTokenMatched = await compare(refreshToken, user.refreshToken)
+    if (isRefreshTokenMatched) {
+      throw new ForbiddenException()
+    }
+
+    const tokens = await this.getTokens(user.id, user.username)
+    await this.updateRefreshToken(user.id, tokens.refreshToken)
+
+    return tokens
+  }
+
+  async updateRefreshToken(userId: number, refreshToken: string) {
+    const hashedRefreshToken = await this.hashData(refreshToken)
+    const user = await this.findUserById(userId)
+    user.refreshToken = hashedRefreshToken
+    await this.authRepository.save(user)
+
+    return user
+  }
+
+  async getTokens(userId: number, username: string) {
+    const payload = {
+      sub: userId,
+      username,
+    }
+
     const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(
-        {
-          sub: userId,
-          username,
-        },
-        {
-          secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
-          expiresIn: '15m',
-        },
-      ),
-      this.jwtService.signAsync(
-        {
-          sub: userId,
-          username,
-        },
-        {
-          secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
-          expiresIn: '15m',
-        },
-      ),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
+        expiresIn: '15m',
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
+        expiresIn: '15m',
+      }),
     ])
 
     return {

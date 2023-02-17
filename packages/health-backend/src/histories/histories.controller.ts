@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common'
 
 import { GetUser } from 'src/auth/decorators/get-user.decorator'
 import { User } from 'src/auth/entities/user.entity'
@@ -7,7 +6,6 @@ import { User } from 'src/auth/entities/user.entity'
 import { CreateHistoryDto } from './dto/create-history.dto'
 import { HistoriesService } from './histories.service'
 
-@UseGuards(AuthGuard())
 @Controller('histories')
 export class HistoriesController {
   constructor(private readonly historyService: HistoriesService) {}

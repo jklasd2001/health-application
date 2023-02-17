@@ -11,7 +11,8 @@
     "build": "pnpm -r build",
     "npkill": "npx npkill",
     "clean-install": "rm -rf **/node_modules && rm -rf pnpm-lock.yaml && pnpm i",
-    "delete-dist": "rimraf **/dist"
+    "delete-dist": "rimraf **/dist",
+    "pnpm-store-prune": "pnpm store prune"
   },
   "dependencies": {
     "luxon": "^3.2.1"

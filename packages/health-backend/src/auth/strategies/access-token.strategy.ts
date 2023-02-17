@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
-import { JwtTokenPayLoad } from 'src/types/JwtTokenPayLoad'
+import { JwtTokenPayLoad } from 'src/auth/types/JwtTokenPayLoad'
 
 import { AuthService } from '../auth.service'
 import { User } from '../entities/user.entity'
@@ -18,8 +18,8 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtTokenPayLoad) {
-    const { username } = payload
-    const user: User = await this.authService.findUserByUsername(username)
+    const { sub } = payload
+    const user: User = await this.authService.findUserById(sub)
 
     if (!user) {
       throw new UnauthorizedException()

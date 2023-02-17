@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { APP_GUARD } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import Joi from 'joi'
 
@@ -8,6 +9,7 @@ import { TypeOrmConfigService } from 'src/config/type-orm-config-service'
 import { HistoriesModule } from 'src/histories/histories.module'
 import { RoutinesModule } from 'src/routines/routines.module'
 
+import { AccessTokenGuard } from './auth/guards/access-token.guard'
 import { ExercisesModule } from './exercises/exercises.module'
 import { MovementsModule } from './movements/movements.module'
 @Module({
@@ -35,6 +37,12 @@ import { MovementsModule } from './movements/movements.module'
     MovementsModule,
     HistoriesModule,
     RoutinesModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
   ],
 })
 export class AppModule {}
