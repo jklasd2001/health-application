@@ -17,20 +17,20 @@ import { UpdateRoutineDto } from './dto/update-routine.dto'
 import { Routine } from './entities/routine.entity'
 import { RoutinesService } from './routines.service'
 
-@Controller('routine')
-export class RoutineController {
+@Controller('routines')
+export class RoutinesController {
   private logger = new Logger()
 
-  constructor(private routineService: RoutinesService) {}
+  constructor(private routinesService: RoutinesService) {}
 
   @Get()
   getAllRoutine() {
-    return this.routineService.getAllRoutine()
+    return this.routinesService.getAllRoutine()
   }
 
   @Get('/:id')
   getRoutine(@Param('id', ParseIntPipe) id: number): Promise<Routine> {
-    return this.routineService.getRoutineById(id)
+    return this.routinesService.getRoutineById(id)
   }
 
   @Post()
@@ -39,18 +39,18 @@ export class RoutineController {
     @Body('exerciseIds', new ParseArrayPipe({ items: Number, separator: ',' }))
     exerciseIds: number[],
   ) {
-    return this.routineService.createRoutine({ name, exerciseIds })
+    return this.routinesService.createRoutine({ name, exerciseIds })
   }
 
   @Patch('/:id')
   @UsePipes(ValidationPipe)
   updateRoutine(@Param('id') id: number, @Body() updateRoutineDto: UpdateRoutineDto) {
-    return this.routineService.updateRoutine({ id, ...updateRoutineDto })
+    return this.routinesService.updateRoutine({ id, ...updateRoutineDto })
   }
 
   @Delete('/:id')
   deleteRoutine(@Param('id', ParseIntPipe) id: number) {
-    return this.routineService.deleteRoutine(id)
+    return this.routinesService.deleteRoutine(id)
   }
 
   @Post('/start')

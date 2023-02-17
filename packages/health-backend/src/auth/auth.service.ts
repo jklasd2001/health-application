@@ -50,7 +50,7 @@ export class AuthService {
 
     if (user && isPasswordMatched) {
       // 유저 토큰 생성 (Secret + Payload)
-      const tokens = await this.getTokens(user.id, user.username)
+      const tokens = await this.generateTokens(user.id, user.username)
       await this.updateRefreshToken(user.id, tokens.refreshToken)
 
       return tokens
@@ -102,18 +102,18 @@ export class AuthService {
     return hashedData
   }
 
-  async updateAccessToken(userId: number, refreshToken: string) {
+  async refreshAccessToken(userId: number, refreshToken: string) {
     const user = await this.findUserById(userId)
     if (!user || !user.refreshToken) {
       throw new ForbiddenException()
     }
 
     const isRefreshTokenMatched = await compare(refreshToken, user.refreshToken)
-    if (isRefreshTokenMatched) {
+    if (!isRefreshTokenMatched) {
       throw new ForbiddenException()
     }
 
-    const tokens = await this.getTokens(user.id, user.username)
+    const tokens = await this.generateTokens(user.id, user.username)
     await this.updateRefreshToken(user.id, tokens.refreshToken)
 
     return tokens
@@ -128,7 +128,8 @@ export class AuthService {
     return user
   }
 
-  async getTokens(userId: number, username: string) {
+  // AccessToken, RefreshToken 생성
+  async generateTokens(userId: number, username: string) {
     const payload = {
       sub: userId,
       username,
@@ -136,7 +137,7 @@ export class AuthService {
 
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
-        secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET_KEY'),
+        secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET_KEY'),
         expiresIn: '15m',
       }),
       this.jwtService.signAsync(payload, {

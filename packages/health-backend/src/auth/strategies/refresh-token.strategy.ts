@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common'
+import { ForbiddenException, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { Request } from 'express'
@@ -10,8 +10,6 @@ import { AuthService } from '../auth.service'
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh-token') {
-  private readonly logger = new Logger(RefreshTokenStrategy.name)
-
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
@@ -24,7 +22,6 @@ export class RefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refres
   }
 
   async validate(req: Request, payload: JwtTokenPayLoad) {
-    console.log(req)
     const refreshToken = req.get('Authorization').replace('Bearer', '').trim()
 
     if (!refreshToken) {

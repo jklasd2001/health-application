@@ -28,8 +28,7 @@ export class AuthController {
   @Public()
   @Post('refresh')
   @UseGuards(RefreshTokenGuard)
-  async generateAccessToken(@GetUser() user: User) {
-    console.log(user)
-    // return this.authService.signIn()
+  async refreshAccessToken(@GetUser() user: User) {
+    return this.authService.refreshAccessToken(user.id, user.refreshToken)
   }
 }
