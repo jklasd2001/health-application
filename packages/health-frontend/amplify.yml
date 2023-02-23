@@ -1,0 +1,19 @@
+version: 0.1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - mv .ci.npmrc .npmrc
+        - nvm use $VERSION_NODE_16
+        - rm -rf pnpm-lock.yaml
+        - yarn install
+    build:
+      commands:
+        - yarn build
+  artifacts:
+    baseDirectory: /dist
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
