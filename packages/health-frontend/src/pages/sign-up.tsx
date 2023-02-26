@@ -17,7 +17,7 @@ const SignUp = () => {
         <input {...register('username')} />
         <input {...register('password')} />
 
-        <button type="submit">로그인</button>
+        <button type="submit">회원가입</button>
       </form>
     </div>
   )

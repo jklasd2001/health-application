@@ -1,5 +1,5 @@
 const Routines = () => {
-  return <div>sad</div>
+  return <div>routines</div>
 }
 
 export default Routines
