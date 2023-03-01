@@ -12,7 +12,8 @@
     "npkill": "npx npkill",
     "clean-install": "rm -rf **/node_modules && rm -rf pnpm-lock.yaml && pnpm i",
     "delete-dist": "rimraf **/dist",
-    "pnpm-store-prune": "pnpm store prune"
+    "pnpm-store-prune": "pnpm store prune",
+    "sort-package-json": "npx sort-package-json"
   },
   "dependencies": {
     "luxon": "^3.2.1"
@@ -21,7 +22,7 @@
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.0",
     "@types/luxon": "^3.2.0",
-    "@types/node": "18.14.1",
+    "@types/node": "18.14.2",
     "eslint-config-jklasd2001s": "^0.0.1",
     "typescript": "4.9.5"
   }
