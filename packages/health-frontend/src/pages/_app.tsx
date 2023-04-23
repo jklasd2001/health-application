@@ -1,14 +1,15 @@
+import { memo } from 'react'
+
 import Head from 'next/head'
 import { SessionProvider } from 'next-auth/react'
 
-import { BottomNavigation, Header, Layout } from 'src/components'
+import { BottomNavigation, Header, Layout } from 'src/layout'
 
 import type { AppProps } from 'next/app'
 
 import 'src/styles/globals.css'
 
-const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppProps) => {
-  console.log(router)
+const App = memo(({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
     <SessionProvider session={session}>
       <Head>
@@ -20,11 +21,16 @@ const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppPro
 
       <Layout>
         <Header />
-        <Component {...pageProps} />
+        <div className="p-4 h-[calc(100vh_-_56px_-_52px)]">
+          <Component {...pageProps} />
+        </div>
+
         <BottomNavigation />
       </Layout>
     </SessionProvider>
   )
-}
+})
+
+App.displayName = 'App'
 
 export default App
